@@ -23,7 +23,7 @@ An internal-facing CRM for the Undergraduation.com advising team. The dashboard 
 - TypeScript-first codebase with ESLint for linting.
 - Firebase Web & Admin SDKs for auth + data, Hugging Face for AI summarisation(under development).
 
-## 🔧 Development quick start
+##  Development quick start
 
 1. **Copy environment template**
    ```bash
