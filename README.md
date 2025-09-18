@@ -124,7 +124,7 @@ Each handler defers to `src/server/students.ts` for Firestore-backed mutations, 
 
 - Seed Firestore with a `students` collection that mirrors the fields in `Student` (`status`, `lastContacted`, `highIntent`, etc.) and subcollections for `timeline`, `notes`, `communications`, and `reminders`. Missing subcollections are auto-fetched on demand and merged with any arrays stored on the parent document.
 
-## 🤖 AI summary workflow
+##  AI summary workflow
 
 `useStudentSummary` posts a trimmed payload to `/api/students/:id/summary`, which normalises the student data, builds a prompt, and calls the Hugging Face summarisation endpoint. Responses are cached for ten minutes per student signature and surface descriptive errors for misconfiguration or provider limits.
 
