@@ -4,19 +4,24 @@ An internal-facing CRM for the Undergraduation.com advising team. The dashboard 
 
 ## ✨ Core capabilities
 
-- **Secure advisor access** – Email/password authentication backed by Firebase Auth with session persistence and optional self-service account creation for new teammates.【F:src/hooks/useAuth.ts†L26-L199】【F:src/components/auth/LoginPanel.tsx†L14-L161】
-- **Student directory & segments** – Search by name/email/country, filter by application stage, and apply quick segments such as "Needs follow-up", "High intent", or "Essay support" to focus the day's outreach list.【F:src/components/dashboard/StudentDirectoryPanel.tsx†L17-L145】【F:src/hooks/useDashboardState.ts†L57-L134】
-- **Workspace for a single student** – Surface journey metrics, tags, progress, communications, notes, reminders, and a dynamic AI summary for the selected learner or deep links like `/dashboard/students/[id]`.【F:src/components/dashboard/StudentProfilePanel.tsx†L19-L382】【F:src/components/dashboard/StudentDetailClient.tsx†L23-L169】
-- **Collaboration tooling** – Log calls/emails/SMS/WhatsApp messages, append internal notes, schedule reminders, and trigger mock follow-up automations that also write to the interaction timeline.【F:src/components/dashboard/StudentProfilePanel.tsx†L206-L382】【F:src/services/students.ts†L590-L833】
-- **Realtime data with offline fallback** – Firestore listeners keep the UI live, while an in-memory mock store populated from `src/data/students.ts` powers full interactivity when Firebase credentials are absent.【F:src/services/students.ts†L334-L461】【F:src/data/students.ts†L1-L200】
-- **AI insight pipeline** – The Hugging Face Inference API summarises each student's latest activity with caching, validation, and helpful error messaging for missing keys or rate limits.【F:src/server/ai/summarizer.ts†L6-L207】【F:src/hooks/useStudentSummary.ts†L17-L114】
+- **Secure advisor access** – Email/password authentication backed by Firebase Auth with session persistence and optional self-service account creation for new teammates.【
+
+- **Student directory & segments** – Search by name/email/country, filter by application stage, and apply quick segments such as "Needs follow-up", "High intent", or "Essay support" to focus the day's outreach list.【
+
+- **Workspace for a single student** – Surface journey metrics, tags, progress, communications, notes, reminders, and a dynamic AI summary for the selected learner or deep links like `/dashboard/students/[id]`.【
+
+- **Collaboration tooling** – Log calls/emails/SMS/WhatsApp messages, append internal notes, schedule reminders, and trigger mock follow-up automations that also write to the interaction timeline.【
+
+- **Realtime data with offline fallback** – Firestore listeners keep the UI live, while an in-memory mock store populated from `src/data/students.ts` powers full interactivity when Firebase credentials are absent.【
+
+- **AI insight pipeline** – The Hugging Face Inference API summarises each student's latest activity with caching, validation, and helpful error messaging for missing keys or rate limits.【
 
 ## 🧱 Tech stack
 
-- [Next.js 15 App Router](https://nextjs.org/) with React 19 and Turbopack dev/build pipelines.【F:package.json†L7-L16】
-- Tailwind CSS v4 (PostCSS pipeline) for styling primitives.【F:package.json†L17-L33】【F:postcss.config.mjs†L1-L9】
-- TypeScript-first codebase with ESLint for linting.【F:package.json†L17-L33】
-- Firebase Web & Admin SDKs for auth + data, Hugging Face for AI summarisation.【F:package.json†L11-L16】
+- [Next.js 15 App Router](https://nextjs.org/) with React 19 and Turbopack dev/build pipelines.】
+- Tailwind CSS v4 (PostCSS pipeline) for styling primitives.
+- TypeScript-first codebase with ESLint for linting.【
+- Firebase Web & Admin SDKs for auth + data, Hugging Face for AI summarisation.【
 
 ## 🔧 Development quick start
 
@@ -111,22 +116,26 @@ src/
 | PATCH        | `/api/students/:id/reminders/:reminderId` | Toggle reminder completion.                                                    |
 | POST         | `/api/students/:id/summary`               | Generate or refresh the AI summary via Hugging Face.                           |
 
-Each handler defers to `src/server/students.ts` for Firestore-backed mutations, automatically returning to the client whether the operation used Firestore or the in-memory mock store.【F:src/app/api/students/route.ts†L1-L17】【F:src/app/api/students/[studentId]/notes/route.ts†L1-L41】【F:src/app/api/students/[studentId]/communications/route.ts†L1-L43】【F:src/app/api/students/[studentId]/follow-up/route.ts†L1-L24】【F:src/app/api/students/[studentId]/reminders/route.ts†L1-L45】【F:src/app/api/students/[studentId]/reminders/[reminderId]/route.ts†L1-L37】【F:src/app/api/students/[studentId]/summary/route.ts†L1-L61】【F:src/server/students.ts†L1-L200】
+Each handler defers to `src/server/students.ts` for Firestore-backed mutations, automatically returning to the client whether the operation used Firestore or the in-memory mock store.【
 
 ## 🧪 Mock data & Firestore schema
 
-- Mock records live in `src/data/students.ts` and are loaded into an in-memory Map on boot. Time-based fields are shifted relative to "now" for realistic recency signals.【F:src/services/students.ts†L334-L372】【F:src/data/students.ts†L38-L200】
-- When Firestore is configured, `subscribeToStudents` listens for document changes and subcollection updates to hydrate the UI in realtime.【F:src/services/students.ts†L466-L652】
-- Seed Firestore with a `students` collection that mirrors the fields in `Student` (`status`, `lastContacted`, `highIntent`, etc.) and subcollections for `timeline`, `notes`, `communications`, and `reminders`. Missing subcollections are auto-fetched on demand and merged with any arrays stored on the parent document.【F:src/server/students.ts†L86-L199】【F:src/server/students.ts†L201-L310】
+- Mock records live in `src/data/students.ts` and are loaded into an in-memory Map on boot. Time-based fields are shifted relative to "now" for realistic recency signals.【
+
+- When Firestore is configured, `subscribeToStudents` listens for document changes and subcollection updates to hydrate the UI in realtime.【
+
+- Seed Firestore with a `students` collection that mirrors the fields in `Student` (`status`, `lastContacted`, `highIntent`, etc.) and subcollections for `timeline`, `notes`, `communications`, and `reminders`. Missing subcollections are auto-fetched on demand and merged with any arrays stored on the parent document.
 
 ## 🤖 AI summary workflow
 
-`useStudentSummary` posts a trimmed payload to `/api/students/:id/summary`, which normalises the student data, builds a prompt, and calls the Hugging Face summarisation endpoint. Responses are cached for ten minutes per student signature and surface descriptive errors for misconfiguration or provider limits.【F:src/hooks/useStudentSummary.ts†L17-L118】【F:src/app/api/students/[studentId]/summary/route.ts†L1-L61】【F:src/server/ai/summarizer.ts†L6-L207】
+`useStudentSummary` posts a trimmed payload to `/api/students/:id/summary`, which normalises the student data, builds a prompt, and calls the Hugging Face summarisation endpoint. Responses are cached for ten minutes per student signature and surface descriptive errors for misconfiguration or provider limits.
 
 ## 🔐 Authentication & roles
 
-- Client auth is initialised via `src/lib/firebase.ts`, using browser session persistence so advisors remain signed in until they log out.【F:src/lib/firebase.ts†L1-L82】【F:src/hooks/useAuth.ts†L43-L199】
-- The UI exposes sign-in/sign-up flows, error messaging, and sign-out controls. Display names automatically derive initials and friendly labels when Firebase profiles are incomplete.【F:src/components/auth/LoginPanel.tsx†L14-L161】【F:src/hooks/useAuth.ts†L63-L116】
+- Client auth is initialised via `src/lib/firebase.ts`, using browser session persistence so advisors remain signed in until they log out.【
+
+- The UI exposes sign-in/sign-up flows, error messaging, and sign-out controls. Display names automatically derive initials and friendly labels when Firebase profiles are incomplete.【
+
 - Protect access by configuring Firebase Auth providers and tightening Firestore security rules to the collections/subcollections used here.
 
 ## ✅ Scripts & tooling
