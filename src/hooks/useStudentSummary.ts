@@ -43,96 +43,99 @@ export const useStudentSummary = (
     setRefreshCounter((value) => value + 1);
   }, []);
 
-  useEffect(() => {
-    if (!summarySource) {
-      setSummary(null);
-      setError(null);
-      setIsLoading(false);
-      lastSignatureRef.current = null;
-      lastStudentIdRef.current = null;
-      refreshMarkerRef.current = 0;
-      return;
-    }
+  // useEffect(() => {
+  //   if (!summarySource) {
+  //     setSummary(null);
+  //     setError(null);
+  //     setIsLoading(false);
+  //     lastSignatureRef.current = null;
+  //     lastStudentIdRef.current = null;
+  //     refreshMarkerRef.current = 0;
+  //     return;
+  //   }
 
-    const { payload, signature } = summarySource;
-    const studentId = payload.id;
+  //   const { payload, signature } = summarySource;
+  //   const studentId = payload.id;
 
-    const hasNewStudent = lastStudentIdRef.current !== studentId;
-    const hasDifferentSignature = lastSignatureRef.current !== signature;
-    const hasRefreshRequest = refreshMarkerRef.current !== refreshCounter;
+  //   const hasNewStudent = lastStudentIdRef.current !== studentId;
+  //   const hasDifferentSignature = lastSignatureRef.current !== signature;
+  //   const hasRefreshRequest = refreshMarkerRef.current !== refreshCounter;
 
-    if (!hasNewStudent && !hasDifferentSignature && !hasRefreshRequest) {
-      return;
-    }
+  //   if (!hasNewStudent && !hasDifferentSignature && !hasRefreshRequest) {
+  //     return;
+  //   }
 
-    lastSignatureRef.current = signature;
-    lastStudentIdRef.current = studentId;
-    refreshMarkerRef.current = refreshCounter;
+  //   lastSignatureRef.current = signature;
+  //   lastStudentIdRef.current = studentId;
+  //   refreshMarkerRef.current = refreshCounter;
 
-    const controller = new AbortController();
-    let isCancelled = false;
+  //   const controller = new AbortController();
+  //   let isCancelled = false;
 
-    const fetchSummary = async () => {
-      setIsLoading(true);
-      setError(null);
-      if (hasNewStudent) {
-        setSummary(null);
-      }
+  //   const fetchSummary = async () => {
+  //     setIsLoading(true);
+  //     setError(null);
+  //     if (hasNewStudent) {
+  //       setSummary(null);
+  //     }
 
-      try {
-        const response = await fetch(
-          `/api/students/${encodeURIComponent(studentId)}/summary`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ student: payload } satisfies StudentSummaryRequestBody),
-            signal: controller.signal,
-            cache: "no-store",
-          }
-        );
+  //     try {
+  //       const response = await fetch(
+  //         `/api/students/${encodeURIComponent(studentId)}/summary`,
+  //         {
+  //           method: "POST",
+  //           headers: { "Content-Type": "application/json" },
+  //           body: JSON.stringify({
+  //             student: payload,
+  //           } satisfies StudentSummaryRequestBody),
+  //           signal: controller.signal,
+  //           cache: "no-store",
+  //         }
+  //       );
 
-        if (!response.ok) {
-          const data = (await response.json().catch(() => null)) as
-            | { error?: string }
-            | null;
-          const message =
-            (data && typeof data?.error === "string" && data.error) ||
-            `Unable to generate AI summary (status ${response.status}).`;
-          throw new Error(message);
-        }
+  //       if (!response.ok) {
+  //         const data = (await response.json().catch(() => null)) as {
+  //           error?: string;
+  //         } | null;
+  //         const message =
+  //           (data && typeof data?.error === "string" && data.error) ||
+  //           `Unable to generate AI summary (status ${response.status}).`;
+  //         throw new Error(message);
+  //       }
 
-        const data = (await response.json()) as StudentSummaryResponse;
-        const text = typeof data.summary === "string" ? data.summary.trim() : "";
+  //       const data = (await response.json()) as StudentSummaryResponse;
+  //       const text =
+  //         typeof data.summary === "string" ? data.summary.trim() : "";
 
-        if (!isCancelled) {
-          setSummary(text.length > 0 ? text : null);
-          setError(null);
-        }
-      } catch (err) {
-        if (isCancelled || controller.signal.aborted) {
-          return;
-        }
+  //       if (!isCancelled) {
+  //         setSummary(text.length > 0 ? text : null);
+  //         setError(null);
+  //       }
+  //     } catch (err) {
+  //       if (isCancelled || controller.signal.aborted) {
+  //         return;
+  //       }
 
-        const message =
-          err instanceof Error
-            ? err.message
-            : "Unable to generate AI summary right now.";
-        setError(message);
-        setSummary(null);
-      } finally {
-        if (!isCancelled) {
-          setIsLoading(false);
-        }
-      }
-    };
+  //       const message =
+  //         err instanceof Error
+  //           ? err.message
+  //           : "Unable to generate AI summary right now.";
+  //       setError(message);
+  //       setSummary(null);
+  //     } finally {
+  //       if (!isCancelled) {
+  //         setIsLoading(false);
+  //       }
+  //     }
+  //   };
 
-    void fetchSummary();
+  //   void fetchSummary();
 
-    return () => {
-      isCancelled = true;
-      controller.abort();
-    };
-  }, [summarySource, refreshCounter]);
+  //   return () => {
+  //     isCancelled = true;
+  //     controller.abort();
+  //   };
+  // }, [summarySource, refreshCounter]);
 
   return useMemo(
     () => ({ summary, isLoading, error, refresh }),

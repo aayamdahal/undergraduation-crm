@@ -2,11 +2,7 @@
 
 import type { FormEvent } from "react";
 
-import type {
-  CommunicationChannel,
-  Note,
-  Student,
-} from "@/data/students";
+import type { CommunicationChannel, Note, Student } from "@/data/students";
 import { formatDateTime, formatRelative } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import type {
@@ -175,7 +171,7 @@ export const StudentProfilePanel = ({
               <p className="text-xs font-semibold uppercase tracking-wide text-indigo-500">
                 AI summary snapshot
               </p>
-              <button
+              {/* <button
                 type="button"
                 onClick={() => {
                   refreshSummary();
@@ -184,12 +180,13 @@ export const StudentProfilePanel = ({
                 className="inline-flex items-center gap-2 rounded-full border border-indigo-500 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {isSummaryLoading ? "Generating..." : "Refresh"}
-              </button>
+              </button> */}
             </div>
             <div className="mt-2 space-y-3 text-sm leading-6 text-slate-700">
               {isSummaryLoading ? (
                 <p className="text-slate-500">
-                  Generating personalized insight based on the latest activity...
+                  Generating personalized insight based on the latest
+                  activity...
                 </p>
               ) : summaryText ? (
                 <p>{summaryText}</p>
@@ -208,7 +205,8 @@ export const StudentProfilePanel = ({
                 </div>
               ) : (
                 <p className="text-slate-500">
-                  AI summary will appear once enough context is available for this student.
+                  AI summary will appear once enough context is available for
+                  this student.
                 </p>
               )}
             </div>
@@ -226,9 +224,7 @@ export const StudentProfilePanel = ({
             role="status"
           >
             <div className="flex items-start gap-3">
-              <span aria-hidden>
-                {feedback.type === "success" ? "✔" : "ℹ"}
-              </span>
+              <span aria-hidden>{feedback.type === "success" ? "✔" : "ℹ"}</span>
               <p>{feedback.message}</p>
             </div>
             <button
@@ -349,7 +345,9 @@ export const StudentProfilePanel = ({
                         </span>
                         <span>{formatDateTime(event.date)}</span>
                       </div>
-                      <p className="mt-2 text-sm text-slate-600">{event.details}</p>
+                      <p className="mt-2 text-sm text-slate-600">
+                        {event.details}
+                      </p>
                     </div>
                   </li>
                 ))}
@@ -394,7 +392,8 @@ export const StudentProfilePanel = ({
                             {reminder.description}
                           </p>
                           <p className="text-xs text-slate-500">
-                            Owner: {reminder.owner} · Due {formatDateTime(reminder.dueDate)}
+                            Owner: {reminder.owner} · Due{" "}
+                            {formatDateTime(reminder.dueDate)}
                           </p>
                         </div>
                         <button
@@ -496,7 +495,9 @@ export const StudentProfilePanel = ({
                         {note.updatedAt && " · updated"}
                       </span>
                     </div>
-                    <p className="mt-2 text-sm text-slate-700">{note.content}</p>
+                    <p className="mt-2 text-sm text-slate-700">
+                      {note.content}
+                    </p>
                     <div className="mt-3 flex gap-3 text-xs font-medium text-indigo-600">
                       <button
                         type="button"
@@ -568,9 +569,13 @@ export const StudentProfilePanel = ({
                       {item.subject}
                     </p>
                     {item.notes && (
-                      <p className="mt-1 text-sm text-slate-600">{item.notes}</p>
+                      <p className="mt-1 text-sm text-slate-600">
+                        {item.notes}
+                      </p>
                     )}
-                    <p className="mt-2 text-xs text-slate-400">Handled by {item.owner}</p>
+                    <p className="mt-2 text-xs text-slate-400">
+                      Handled by {item.owner}
+                    </p>
                   </li>
                 ))}
               </ul>
