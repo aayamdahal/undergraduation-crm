@@ -76,7 +76,7 @@ Server routes use the Admin SDK for privileged reads/writes. Wrap newlines in th
 - `NEXT_PUBLIC_API_BASE_URL` – Optional browser override when API routes are deployed separately.
 - `API_BASE_URL` – Optional server override for the same scenario.
 
-### Hugging Face summariser
+### Hugging Face summariser(Ongoing development)
 
 - `HUGGINGFACE_API_KEY` – Required to enable AI summaries.
 - `HUGGINGFACE_SUMMARY_MODEL` – Optional, defaults to `facebook/bart-large-cnn`.
