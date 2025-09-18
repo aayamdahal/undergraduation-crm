@@ -4,17 +4,17 @@ An internal-facing CRM for the Undergraduation.com advising team. The dashboard 
 
 ## ✨ Core capabilities
 
-- **Secure advisor access** – Email/password authentication backed by Firebase Auth with session persistence and optional self-service account creation for new teammates.【
+- **Secure advisor access** – Email/password authentication backed by Firebase Auth with session persistence and optional self-service account creation for new teammates.
 
-- **Student directory & segments** – Search by name/email/country, filter by application stage, and apply quick segments such as "Needs follow-up", "High intent", or "Essay support" to focus the day's outreach list.【
+- **Student directory & segments** – Search by name/email/country, filter by application stage, and apply quick segments such as "Needs follow-up", "High intent", or "Essay support" to focus the day's outreach list.
 
-- **Workspace for a single student** – Surface journey metrics, tags, progress, communications, notes, reminders, and a dynamic AI summary for the selected learner or deep links like `/dashboard/students/[id]`.【
+- **Workspace for a single student** – Surface journey metrics, tags, progress, communications, notes, reminders, and a dynamic AI summary for the selected learner or deep links like `/dashboard/students/[id]`.
 
-- **Collaboration tooling** – Log calls/emails/SMS/WhatsApp messages, append internal notes, schedule reminders, and trigger mock follow-up automations that also write to the interaction timeline.【
+- **Collaboration tooling** – Log calls/emails/SMS/WhatsApp messages, append internal notes, schedule reminders, and trigger mock follow-up automations that also write to the interaction timeline.
 
-- **Realtime data with offline fallback** – Firestore listeners keep the UI live, while an in-memory mock store populated from `src/data/students.ts` powers full interactivity when Firebase credentials are absent.【
+- **Realtime data with offline fallback** – Firestore listeners keep the UI live, while an in-memory mock store populated from `src/data/students.ts` powers full interactivity when Firebase credentials are absent.
 
-- **AI insight pipeline** – The Hugging Face Inference API summarises each student's latest activity with caching, validation, and helpful error messaging for missing keys or rate limits.【
+- **AI insight pipeline** – The Hugging Face Inference API summarises each student's latest activity with caching, validation, and helpful error messaging for missing keys or rate limits.
 
 ## 🧱 Tech stack
 
@@ -71,8 +71,6 @@ Server routes use the Admin SDK for privileged reads/writes. Wrap newlines in th
 - `FIREBASE_CLIENT_EMAIL`
 - `FIREBASE_PRIVATE_KEY`
 
-> The services automatically fall back to the mock store if any Admin credentials are missing, logging a warning in development.【F:src/lib/firebase.ts†L41-L82】【F:src/lib/firebaseAdmin.ts†L6-L64】
-
 ### API host overrides
 
 - `NEXT_PUBLIC_API_BASE_URL` – Optional browser override when API routes are deployed separately.
@@ -120,9 +118,9 @@ Each handler defers to `src/server/students.ts` for Firestore-backed mutations, 
 
 ## 🧪 Mock data & Firestore schema
 
-- Mock records live in `src/data/students.ts` and are loaded into an in-memory Map on boot. Time-based fields are shifted relative to "now" for realistic recency signals.【
+- Mock records live in `src/data/students.ts` and are loaded into an in-memory Map on boot. Time-based fields are shifted relative to "now" for realistic recency signals.
 
-- When Firestore is configured, `subscribeToStudents` listens for document changes and subcollection updates to hydrate the UI in realtime.【
+- When Firestore is configured, `subscribeToStudents` listens for document changes and subcollection updates to hydrate the UI in realtime.
 
 - Seed Firestore with a `students` collection that mirrors the fields in `Student` (`status`, `lastContacted`, `highIntent`, etc.) and subcollections for `timeline`, `notes`, `communications`, and `reminders`. Missing subcollections are auto-fetched on demand and merged with any arrays stored on the parent document.
 
@@ -132,9 +130,9 @@ Each handler defers to `src/server/students.ts` for Firestore-backed mutations, 
 
 ## 🔐 Authentication & roles
 
-- Client auth is initialised via `src/lib/firebase.ts`, using browser session persistence so advisors remain signed in until they log out.【
+- Client auth is initialised via `src/lib/firebase.ts`, using browser session persistence so advisors remain signed in until they log out.
 
-- The UI exposes sign-in/sign-up flows, error messaging, and sign-out controls. Display names automatically derive initials and friendly labels when Firebase profiles are incomplete.【
+- The UI exposes sign-in/sign-up flows, error messaging, and sign-out controls. Display names automatically derive initials and friendly labels when Firebase profiles are incomplete.
 
 - Protect access by configuring Firebase Auth providers and tightening Firestore security rules to the collections/subcollections used here.
 
