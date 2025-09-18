@@ -1,6 +1,6 @@
 # Undergraduation Admin Dashboard
 
-An internal-facing CRM for the Undergraduation.com advising team. The dashboard centralises every learner's journey so advisors can review intent signals, log outreach, coordinate next steps, and generate AI-assisted context before each conversation.
+An internal-facing CRM for the Undergraduation.com advising team. The dashboard centralises every learner's journey so advisors can review intent signals, log outreach, coordinate next steps, and generate AI-assisted (ongoing development) context before each conversation.
 
 ## Core capabilities
 
