@@ -14,14 +14,14 @@ An internal-facing CRM for the Undergraduation.com advising team. The dashboard 
 
 - **Realtime data with offline fallback** – Firestore listeners keep the UI live, while an in-memory mock store populated from `src/data/students.ts` powers full interactivity when Firebase credentials are absent.
 
-- **AI insight pipeline** – The Hugging Face Inference API summarises each student's latest activity with caching, validation, and helpful error messaging for missing keys or rate limits.
+- **AI insight pipeline(ongoing development)** – The Hugging Face Inference API summarises each student's latest activity with caching, validation, and helpful error messaging for missing keys or rate limits.
 
 ## 🧱 Tech stack
 
-- [Next.js 15 App Router](https://nextjs.org/) with React 19 and Turbopack dev/build pipelines.】
+- [Next.js 15 App Router](https://nextjs.org/) with React 19 and Turbopack dev/build pipelines.
 - Tailwind CSS v4 (PostCSS pipeline) for styling primitives.
-- TypeScript-first codebase with ESLint for linting.【
-- Firebase Web & Admin SDKs for auth + data, Hugging Face for AI summarisation.【
+- TypeScript-first codebase with ESLint for linting.
+- Firebase Web & Admin SDKs for auth + data, Hugging Face for AI summarisation(under development).
 
 ## 🔧 Development quick start
 
