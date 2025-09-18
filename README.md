@@ -2,7 +2,7 @@
 
 An internal-facing CRM for the Undergraduation.com advising team. The dashboard centralises every learner's journey so advisors can review intent signals, log outreach, coordinate next steps, and generate AI-assisted context before each conversation.
 
-## ✨ Core capabilities
+## Core capabilities
 
 - **Secure advisor access** – Email/password authentication backed by Firebase Auth with session persistence and optional self-service account creation for new teammates.
 
@@ -12,18 +12,16 @@ An internal-facing CRM for the Undergraduation.com advising team. The dashboard 
 
 - **Collaboration tooling** – Log calls/emails/SMS/WhatsApp messages, append internal notes, schedule reminders, and trigger mock follow-up automations that also write to the interaction timeline.
 
-- **Realtime data with offline fallback** – Firestore listeners keep the UI live, while an in-memory mock store populated from `src/data/students.ts` powers full interactivity when Firebase credentials are absent.
-
 - **AI insight pipeline(ongoing development)** – The Hugging Face Inference API summarises each student's latest activity with caching, validation, and helpful error messaging for missing keys or rate limits.
 
-## 🧱 Tech stack
+## Tech stack
 
 - [Next.js 15 App Router](https://nextjs.org/) with React 19 and Turbopack dev/build pipelines.
 - Tailwind CSS v4 (PostCSS pipeline) for styling primitives.
 - TypeScript-first codebase with ESLint for linting.
 - Firebase Web & Admin SDKs for auth + data, Hugging Face for AI summarisation(under development).
 
-## 🔧 Development quick start
+## Development quick start
 
 1. **Copy environment template**
    ```bash
@@ -48,7 +46,7 @@ An internal-facing CRM for the Undergraduation.com advising team. The dashboard 
    npm run start
    ```
 
-## 🔐 Environment configuration
+## Environment configuration
 
 All variables are listed in [`.env.example`](.env.example). Populate them before running against live services.
 
@@ -81,7 +79,7 @@ Server routes use the Admin SDK for privileged reads/writes. Wrap newlines in th
 - `HUGGINGFACE_API_KEY` – Required to enable AI summaries.
 - `HUGGINGFACE_SUMMARY_MODEL` – Optional, defaults to `facebook/bart-large-cnn`.
 
-## 🗂️ Project layout
+## Project layout
 
 ```
 src/
@@ -101,7 +99,7 @@ src/
 └─ types/                    # Shared API contract types
 ```
 
-## 📡 API routes
+## API routes
 
 | Method       | Endpoint                                  | Purpose                                                                        |
 | ------------ | ----------------------------------------- | ------------------------------------------------------------------------------ |
@@ -116,7 +114,7 @@ src/
 
 Each handler defers to `src/server/students.ts` for Firestore-backed mutations, automatically returning to the client whether the operation used Firestore or the in-memory mock store.【
 
-## 🧪 Mock data & Firestore schema
+## Mock data & Firestore schema
 
 - Mock records live in `src/data/students.ts` and are loaded into an in-memory Map on boot. Time-based fields are shifted relative to "now" for realistic recency signals.
 
@@ -124,11 +122,11 @@ Each handler defers to `src/server/students.ts` for Firestore-backed mutations, 
 
 - Seed Firestore with a `students` collection that mirrors the fields in `Student` (`status`, `lastContacted`, `highIntent`, etc.) and subcollections for `timeline`, `notes`, `communications`, and `reminders`. Missing subcollections are auto-fetched on demand and merged with any arrays stored on the parent document.
 
-## 🤖 AI summary workflow
+## AI summary workflow
 
 `useStudentSummary` posts a trimmed payload to `/api/students/:id/summary`, which normalises the student data, builds a prompt, and calls the Hugging Face summarisation endpoint. Responses are cached for ten minutes per student signature and surface descriptive errors for misconfiguration or provider limits.
 
-## 🔐 Authentication & roles
+## Authentication & roles
 
 - Client auth is initialised via `src/lib/firebase.ts`, using browser session persistence so advisors remain signed in until they log out.
 
@@ -136,7 +134,7 @@ Each handler defers to `src/server/students.ts` for Firestore-backed mutations, 
 
 - Protect access by configuring Firebase Auth providers and tightening Firestore security rules to the collections/subcollections used here.
 
-## ✅ Scripts & tooling
+## Scripts & tooling
 
 | Command         | Description                                  |
 | --------------- | -------------------------------------------- |

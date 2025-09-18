@@ -151,9 +151,7 @@ export const StudentDirectoryPanel = ({
                       >
                         {student.name}
                       </Link>
-                      <p className="text-sm text-slate-500">
-                        {student.email}
-                      </p>
+                      <p className="text-sm text-slate-500">{student.email}</p>
                       <p className="text-xs text-slate-400">
                         {student.country} · Last active{" "}
                         {formatRelative(student.lastActive)}
@@ -183,15 +181,18 @@ export const StudentDirectoryPanel = ({
                       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 sm:flex-col sm:items-end sm:gap-1">
                         <p className="text-base font-semibold text-slate-900 sm:text-lg">
                           {student.engagementScore}
-                          <span className="ml-1 text-xs font-medium text-slate-500">/100</span>
+                          <span className="ml-1 text-xs font-medium text-slate-500">
+                            /100
+                          </span>
                         </p>
                         <p className="text-xs text-slate-400">
-                          Essays: {student.essayDrafts} · Docs: {student.documentsUploaded}
+                          Essays: {student.essayDrafts}·Docs:{" "}
+                          {student.documentsUploaded}
                         </p>
                       </div>
-                      <div className="text-xs text-slate-400">
-                        Last contacted {formatRelative(student.lastContacted)}
-                      </div>
+                      <p className="text-xs text-slate-400">
+                        {formatRelative(student.lastContacted)}
+                      </p>
                     </div>
                   </div>
                 </li>
