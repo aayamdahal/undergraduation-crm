@@ -32,8 +32,8 @@ export const DashboardHeader = ({
             Student Success Command Center
           </h1>
           <p className="max-w-3xl text-base text-slate-600">
-            Monitor student engagement, keep application milestones on track, and
-            coordinate outreach across the advising team.
+            Monitor student engagement, keep application milestones on track,
+            and coordinate outreach across the advising team.
           </p>
         </div>
         <div className="flex flex-col items-stretch gap-3 text-sm text-slate-500 sm:flex-row sm:items-center sm:gap-4 lg:flex-col lg:items-end">
@@ -42,7 +42,9 @@ export const DashboardHeader = ({
               {user.initials}
             </span>
             <div className="text-left sm:text-right">
-              <p className="text-sm font-semibold text-slate-700">{user.name}</p>
+              <p className="text-sm font-semibold text-slate-700">
+                {user.name}
+              </p>
               <p className="text-xs text-slate-400">{user.role}</p>
               <p className="text-xs text-slate-400">{user.email}</p>
             </div>
@@ -54,9 +56,13 @@ export const DashboardHeader = ({
               Sign out
             </button>
           </div>
+
           <div className="flex flex-wrap items-center justify-end gap-3">
             <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 shadow-sm transition-colors">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden />
+              <span
+                className="h-2 w-2 rounded-full bg-emerald-500"
+                aria-hidden
+              />
               Data refreshed {formatTime(lastUpdatedAt)}
             </span>
           </div>
@@ -83,7 +89,9 @@ export const DashboardHeader = ({
           </p>
         </div>
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-colors">
-          <p className="text-sm font-medium text-slate-500">Needs essay support</p>
+          <p className="text-sm font-medium text-slate-500">
+            Needs essay support
+          </p>
           <p className="mt-2 text-3xl font-semibold text-slate-900">
             {summary.needsEssaySupport}
           </p>
@@ -92,7 +100,9 @@ export const DashboardHeader = ({
           </p>
         </div>
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-colors">
-          <p className="text-sm font-medium text-slate-500">Follow-ups overdue</p>
+          <p className="text-sm font-medium text-slate-500">
+            Follow-ups overdue
+          </p>
           <p className="mt-2 text-3xl font-semibold text-slate-900">
             {summary.overdue}
           </p>
