@@ -12,14 +12,12 @@ An internal-facing CRM for the Undergraduation.com advising team. The dashboard 
 
 - **Collaboration tooling** – Log calls/emails/SMS/WhatsApp messages, append internal notes, schedule reminders, and trigger mock follow-up automations that also write to the interaction timeline.
 
-- **AI insight pipeline(ongoing development)** – The Hugging Face Inference API summarises each student's latest activity with caching, validation, and helpful error messaging for missing keys or rate limits.
-
 ## Tech stack
 
 - [Next.js 15 App Router](https://nextjs.org/) with React 19 and Turbopack dev/build pipelines.
 - Tailwind CSS v4 (PostCSS pipeline) for styling primitives.
 - TypeScript-first codebase with ESLint for linting.
-- Firebase Web & Admin SDKs for auth + data, Hugging Face for AI summarisation(under development).
+- Firebase Web & Admin SDKs for auth + data.
 
 ## Development quick start
 
