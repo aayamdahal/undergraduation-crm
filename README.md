@@ -74,11 +74,6 @@ Server routes use the Admin SDK for privileged reads/writes. Wrap newlines in th
 - `NEXT_PUBLIC_API_BASE_URL` – Optional browser override when API routes are deployed separately.
 - `API_BASE_URL` – Optional server override for the same scenario.
 
-### Hugging Face summariser(Ongoing development)
-
-- `HUGGINGFACE_API_KEY` – Required to enable AI summaries.
-- `HUGGINGFACE_SUMMARY_MODEL` – Optional, defaults to `facebook/bart-large-cnn`.
-
 ## Project layout
 
 ```
@@ -114,17 +109,24 @@ src/
 
 Each handler defers to `src/server/students.ts` for Firestore-backed mutations, automatically returning to the client whether the operation used Firestore or the in-memory mock store.【
 
-## Mock data & Firestore schema
+## Seeding Firestore data
 
-- Mock records live in `src/data/students.ts` and are loaded into an in-memory Map on boot. Time-based fields are shifted relative to "now" for realistic recency signals.
+Bootstrap a Firestore instance with the sample records in [`firestoreSeed.json`](./firestoreSeed.json) by running the provided TypeScript script from the project root.
+
+1. **Generate a service account key** – In the Firebase console, create a new Service Account for your project and download the JSON key file.
+2. **Save the key locally** – Place the key next to the seeding script as `serviceAccountKey.json`. (This file should remain uncommitted.)
+3. **Adjust the seed (optional)** – Update `firestoreSeed.json` if you want to customise the starter students, subcollections, or IDs.
+4. **Run the seeder** – Execute the script with ts-node:
+   ```bash
+   npx ts-node --esm seedFirestore.ts
+   ```
+   The script writes each student document plus nested `timeline`, `notes`, `communications`, and `reminders` subcollections.
+
+## Mock data & Firestore schema
 
 - When Firestore is configured, `subscribeToStudents` listens for document changes and subcollection updates to hydrate the UI in realtime.
 
 - Seed Firestore with a `students` collection that mirrors the fields in `Student` (`status`, `lastContacted`, `highIntent`, etc.) and subcollections for `timeline`, `notes`, `communications`, and `reminders`. Missing subcollections are auto-fetched on demand and merged with any arrays stored on the parent document.
-
-## AI summary workflow
-
-`useStudentSummary` posts a trimmed payload to `/api/students/:id/summary`, which normalises the student data, builds a prompt, and calls the Hugging Face summarisation endpoint. Responses are cached for ten minutes per student signature and surface descriptive errors for misconfiguration or provider limits.
 
 ## Authentication & roles
 
